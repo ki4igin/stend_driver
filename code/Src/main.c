@@ -21,6 +21,8 @@ enum cmd_id {
     CMD_X_GET_POS,
     CMD_Y_GET_POS,
     CMD_GET_POS,
+    CMD_X_SET_VEL,
+    CMD_Y_SET_VEL,
 };
 
 struct cmd {
@@ -38,6 +40,10 @@ static void cmd_work(struct cmd cmd)
     switch (cmd.id) {
     case CMD_RESET: {
         NVIC_SystemReset();
+    } break;
+    case CMD_TEST: {
+        cmd.arg = 0x0C0C;
+        UART_Send_Array(&cmd, sizeof(cmd));
     } break;
     case CMD_STOP: {
         driver_stop();
@@ -78,6 +84,12 @@ static void cmd_work(struct cmd cmd)
             .arg[1] = driver_get_pos().y,
         };
         UART_Send_Array(&cmd_ex, sizeof(cmd_ex));
+    } break;
+    case CMD_X_SET_VEL: {
+        driver_x_set_vel(cmd.arg);
+    } break;
+    case CMD_Y_SET_VEL: {
+        driver_y_set_vel(cmd.arg);
     } break;
     case CMD_SET_ORIGIN: {
         driver_origin();

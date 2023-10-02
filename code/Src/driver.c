@@ -6,12 +6,14 @@
 static struct motor x = {
     .gpio_dir = {DR_GPIO_Port, DR1_DIR_Pin},
     .tim_inst = TIM3,
+    .ccr = &TIM3->CCR1,
     .k_mov2step = 20,
 };
 
 static struct motor y = {
     .gpio_dir = {DR_GPIO_Port, DR2_DIR_Pin},
     .tim_inst = TIM4,
+    .ccr = &TIM4->CCR2,
     .k_mov2step = 20,
 };
 
@@ -49,6 +51,16 @@ void driver_x_set_k(uint32_t k_mov2step)
 void driver_y_set_k(uint32_t k_mov2step)
 {
     y.k_mov2step = k_mov2step;
+}
+
+void driver_x_set_vel(uint32_t velocity)
+{
+    motor_set_velocity(&x, velocity);
+}
+
+void driver_y_set_vel(uint32_t velocity)
+{
+    motor_set_velocity(&y, velocity);
 }
 
 struct driver_pos driver_get_pos(void)

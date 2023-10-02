@@ -3,7 +3,7 @@
 
 #include "stm32f4xx.h"
 #include "stm32f4xx_ll_gpio.h"
-#include "stm32f4xx_ll_gpio.h"
+#include "stm32f4xx_ll_tim.h"
 
 struct gpio {
     GPIO_TypeDef *port;
@@ -16,6 +16,7 @@ struct motor {
     int32_t offset_step;
     uint32_t k_mov2step;
     TIM_TypeDef *tim_inst;
+    volatile uint32_t *const ccr;
 };
 
 inline static void motor_offset(struct motor *s, int32_t offset_mm)
@@ -34,6 +35,19 @@ inline static void motor_offset(struct motor *s, int32_t offset_mm)
 inline static int32_t motor_get_pos(struct motor *s)
 {
     return s->pos_step / s->k_mov2step;
+}
+
+inline static void motor_set_velocity(struct motor *s, uint32_t vel_papugay)
+{
+    if (LL_TIM_IsEnabledCounter(s->tim_inst)) {
+        return;
+    }
+    if (vel_papugay < 1000) {
+        vel_papugay = 1000;
+    }
+
+    *s->ccr = vel_papugay / 2;
+    LL_TIM_SetAutoReload(s->tim_inst, vel_papugay);
 }
 
 inline static void motor_set_origin(struct motor *s)
