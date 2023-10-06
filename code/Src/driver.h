@@ -3,7 +3,7 @@
 
 #include "stm32f4xx.h"
 
-struct driver_pos {
+struct coords {
     int16_t x;
     int16_t y;
 };
@@ -19,7 +19,8 @@ void driver_x_set_vel(uint32_t velocity);
 void driver_y_set_vel(uint32_t velocity);
 void driver_x_tick(void);
 void driver_y_tick(void);
-struct driver_pos driver_get_pos(void);
+struct coords driver_get_pos(void);
+struct coords driver_get_offset(void);
 void driver_origin(void);
 
 #endif

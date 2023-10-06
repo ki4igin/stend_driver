@@ -45,6 +45,11 @@ inline static int32_t motor_get_pos(struct motor *s)
     return s->pos_step / s->k_mov2step;
 }
 
+inline static int32_t motor_get_offset(struct motor *s)
+{
+    return s->offset_step / s->k_mov2step;
+}
+
 inline static void motor_set_velocity(struct motor *s, uint32_t vel_papugay)
 {
     if (vel_papugay < 1000) {
