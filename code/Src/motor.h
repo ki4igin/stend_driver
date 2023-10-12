@@ -40,12 +40,12 @@ inline static void motor_offset(struct motor *s, int32_t offset_mm)
     LL_TIM_EnableCounter(s->tim.inst);
 }
 
-inline static int32_t motor_get_pos(struct motor *s)
+inline static int16_t motor_get_pos(struct motor *s)
 {
     return s->pos_step / s->k_mov2step;
 }
 
-inline static int32_t motor_get_offset(struct motor *s)
+inline static int16_t motor_get_offset(struct motor *s)
 {
     return s->offset_step / s->k_mov2step;
 }

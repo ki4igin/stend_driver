@@ -98,7 +98,7 @@ static void cmd_work(struct cmd cmd)
     } break;
     case CMD_GET_OFFSET: {
         struct cmd_ex cmd_ex = {
-            .id = CMD_GET_POS,
+            .id = CMD_GET_OFFSET,
             .arg[0] = driver_get_offset().x,
             .arg[1] = driver_get_offset().y,
         };
